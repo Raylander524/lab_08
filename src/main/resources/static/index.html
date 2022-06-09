@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SPA - AJAX</title>
+    <link rel="stylesheet" type="text/css" href="global.css"/ media="screen">
+</head>
+
+<body>
+    <div class="titulo">
+        <h1 >SPA - AJAX</h1>
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Pesquisar turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaId" placeholder="Código da turma" >
+        <input class="button" type="button" value="Pesquisar" onclick="busca()">
+    </div>
+    <div id = "elementoTurma"  ></div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Deletar turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo3" placeholder="Código da turma"> 
+        <input class="button" type="button" value="Deletar elemento" onclick="deletar()">
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Cadastrar turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo1" placeholder="Código da turma">
+        <input class="campoEntrada" type="text" id="TurmaDisciplina1" placeholder="Disciplina">
+        <input class="campoEntrada" type="number" id="TurmaSemestre1" placeholder="Semestre"> 
+        <input class="button" type="button" value="Cadastrar" onclick="save()">
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Atualizar turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo2" placeholder="Código da turma"> 
+        <input class="campoEntrada" type="text" id="TurmaDisciplina2" placeholder="Disciplina"> 
+        <input class="campoEntrada" type="number" id="TurmaSemestre2" placeholder="Semestre"> 
+        <input class="button" type="button" value="Atualizar turma" onclick="atualizar()">
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Retornar alunos da turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo4" placeholder="Código da turma"> 
+        <input class="button" type="button" value="Retornar alunos" onclick="buscaAlunos()">
+    </div>
+    <div id = "elementosAlunos"></div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Cadastrar aluno na turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo5" placeholder="Código da turma">
+        <input class="campoEntrada" type="number" id="AlunoMatricula1" placeholder="Matrícula"> 
+        <input class="campoEntrada" type="text" id="AlunoNome" placeholder="Nome"> 
+        <input class="campoEntrada" type="text" id="AlunoEmail" placeholder="Email"> 
+        <input class="button" type="button" value="Cadastrar Aluno" onclick="saveAluno()">
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Deletar aluno na turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo6" placeholder="Código da turma">
+        <input class="campoEntrada" type="number" id="AlunoMatricula2" placeholder="Matrícula">
+        <input class="button" type="button" value="Deletar Aluno" onclick="deleteAluno()">
+    </div>
+    <div class="researchClass"><input class="button" type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>
+    <div class="retornoDeElementos" id = "elementosTurma"></div>
+    <script type="text/javascript">
+        function save(){
+            let codigo = document.getElementById("TurmaCodigo1").value;
+            let disciplina = document.getElementById("TurmaDisciplina1").value;
+            let semestre = document.getElementById("TurmaSemestre1").value;
+            let alunos = null;
+            newprod = {codigo: parseInt(codigo), disciplina: disciplina, semestre : parseInt(semestre), alunos: alunos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/api/turma', true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+
+        function busca(){
+            let codigo = document.getElementById("TurmaId").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/api/turma/'+codigo, true);
+            xhr.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    turmas = JSON.parse(xhr.responseText);
+                   
+                    turmasElementoDiv = document.getElementById("elementoTurma");
+                    lista = '<ul>';
+                   
+                        lista += '<li>' + turmas.codigo+ " - " + turmas.disciplina + " - " + turmas.semestre + " - " + turmas.alunos + '</li>';
+                   
+                    lista += '<ul>';
+                    turmasElementoDiv.innerHTML = lista;
+                }
+
+            };
+            xhr.send();
+        }
+        function buscaTudo(){
+        var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/api/turma", true);
+            xhttp.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    turmas = JSON.parse(xhttp.responseText);
+                    lista = '<ul>';
+
+                    turmasElementoDiv = document.getElementById("elementosTurma");
+                    for (const i in turmas){
+                        let p = turmas[i];
+                        lista += '<li>' + p.codigo + ' - ' + p.disciplina + ' - ' + p.semestre + ' - ' + p.alunos + '</li>';
+                    }
+                   
+                    lista += '<ul>';
+                        turmasElementoDiv.innerHTML = lista;
+                }
+            };
+            xhttp.send();
+        }
+        function atualizar(){
+            let codigo = document.getElementById("TurmaCodigo2").value;
+            let disciplina = document.getElementById("TurmaDisciplina2").value;
+            let semestre = document.getElementById("TurmaSemestre2").value;
+            let alunos = null;
+            newprod = {codigo: parseInt(codigo), disciplina: disciplina, semestre : parseInt(semestre), alunos: alunos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", '/api/turma/'+codigo, true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+        function deletar(){
+            let codigo = document.getElementById("TurmaCodigo3").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", '/api/turma/'+codigo, true);
+            xhr.send();
+        }
+        function buscaAlunos(){
+            let codigo = document.getElementById("TurmaCodigo4").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/api/turma/'+codigo+'/alunos', true);
+            xhr.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alunos = JSON.parse(xhr.responseText);
+
+                    lista = '<ul>';
+                   
+                    alunosElementoDiv = document.getElementById("elementosAlunos");
+                    for (const i in alunos){
+                        let p = alunos[i];
+                        lista += '<li>' + p.matricula + ' - ' + p.nome + ' - ' + p.email+ '</li>';
+                    }
+                   
+                    lista += '<ul>';
+                        alunosElementoDiv.innerHTML = lista;
+                }
+
+            };
+            xhr.send();
+        }
+        function saveAluno(){
+            let codigo = document.getElementById("TurmaCodigo5").value;
+            let matricula = document.getElementById("AlunoMatricula1").value;
+            let nome = document.getElementById("AlunoNome").value;
+            let email = document.getElementById("AlunoEmail").value;
+            newprod = {matricula: parseInt(matricula), nome: nome, email : email};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/api/turma/'+codigo+'/alunos', true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+        function deleteAluno(){
+            let codigo = document.getElementById("TurmaCodigo6").value;
+            let matricula = document.getElementById("AlunoMatricula2").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", '/api/turma/'+codigo+'/alunos/'+matricula, true);
+            xhr.send();
+        }
+    </script>
+
+</body>
+
+</html>
