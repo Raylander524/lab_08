@@ -5,15 +5,17 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Turma {
     @Id
-    @GeneratedValue
+    @GeneratedValue 
     private int codigo;
     private String disciplina;
-    private int semestre;
+    @ManyToMany
     private List<Aluno> alunos;
+    private List<Date> horarios;
 
     public Turma(int codigo, String disciplina, int semestre, List<Aluno> alunos){
         this.codigo = codigo;

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Lab08Application<lab_08>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.ufc.web.lab_08.Lab08Application",
+            "projectName": "lab_08",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
