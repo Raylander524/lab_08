@@ -17,13 +17,17 @@ public class Aluno {
     private String nome;
     private String email;
     private String telefone;
-    
-    private Date dataNasc;
+    private String dataNasc;
 
     @Embedded
     private Endereco endereco;
 
-    public Aluno(){
+    public Aluno(String nome, String email, String telefone, String dataNasc, Endereco endereco){
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.dataNasc = dataNasc;
+        this.endereco = endereco;
     }
 
     public void setMatricula(int matricula){
@@ -58,11 +62,11 @@ public class Aluno {
         return this.telefone;
     }
 
-    public void setDataNasc(Date telefone){
+    public void setDataNasc(String dataNasc){
         this.dataNasc = dataNasc;
     }
 
-    public Date getDataNasc(){
+    public String getDataNasc(){
         return this.dataNasc;
     }
 }

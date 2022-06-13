@@ -189,7 +189,7 @@
             let cidade = document.getElementById("AlunoCidade").value;
             let logradouro = document.getElementById("AlunoLogradouro").value;
             let numero = document.getElementById("AlunoNumero").value;
-            let cep =  parseInt(document.getElementById("AlunoCep").value);
+            let cep =  document.getElementById("AlunoCep").value;
             newendereco = { estado : estado, cidade : cidade, logradouro : logradouro, numero : numero, cep:cep}
             newprod = {nome: nome, email : email, telefone : telefone, data_nasc : dataNasc, endereco:newendereco};
            
