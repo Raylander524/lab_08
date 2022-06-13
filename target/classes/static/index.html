@@ -24,10 +24,14 @@
     </div>
     <div class="researchClass">
         <h3 class="researchClass-title">Cadastrar turma</h3><br/><br/>
-        <input class="campoEntrada" type="number" id="TurmaCodigo1" placeholder="Código da turma">
-        <input class="campoEntrada" type="text" id="TurmaDisciplina1" placeholder="Disciplina">
-        <input class="campoEntrada" type="number" id="TurmaSemestre1" placeholder="Semestre"> 
-        <input class="button" type="button" value="Cadastrar" onclick="save()">
+        <input class="campoEntrada" type="number" id="TurmaDisciplina1" placeholder="Disciplina">
+        <input class="button" type="button" value="Cadastrar Turma" onclick="save()">
+    </div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Cadastrar Disciplina</h3><br/><br/>
+        <input class="campoEntrada" type="text" id="NomeDisciplina" placeholder="Disciplina"> 
+        <input class="campoEntrada" type="number" id="CreditosDisciplina" placeholder="Creditos Disciplina"> 
+        <input class="button" type="button" value="Cadastrar Disciplina" onclick="saveDisciplina()">
     </div>
     <div class="researchClass">
         <h3 class="researchClass-title">Atualizar turma</h3><br/><br/>
@@ -44,10 +48,15 @@
     <div id = "elementosAlunos"></div>
     <div class="researchClass">
         <h3 class="researchClass-title">Cadastrar aluno na turma</h3><br/><br/>
-        <input class="campoEntrada" type="number" id="TurmaCodigo5" placeholder="Código da turma">
-        <input class="campoEntrada" type="number" id="AlunoMatricula1" placeholder="Matrícula"> 
         <input class="campoEntrada" type="text" id="AlunoNome" placeholder="Nome"> 
-        <input class="campoEntrada" type="text" id="AlunoEmail" placeholder="Email"> 
+        <input class="campoEntrada" type="email" id="AlunoEmail" placeholder="Email"> 
+        <input class="campoEntrada" type="tel" id="AlunoTelefone" placeholder="Telefone">
+        <input class="campoEntrada" type="date" id="AlunoDataNascimento" placeholder="Datas de nascimento"><br/>
+        <input class="campoEntrada" type="text" id="AlunoEstado" placeholder="Estado" maxlength="2">
+        <input class="campoEntrada" type="text" id="AlunoCidade" placeholder="Cidade">
+        <input class="campoEntrada" type="text" id="AlunoLogradouro" placeholder="Logadrouro">
+        <input class="campoEntrada" type="text" id="AlunoNumero" placeholder="Número">
+        <input class="campoEntrada" type="number" id="AlunoCep" placeholder="Cep"><br/>
         <input class="button" type="button" value="Cadastrar Aluno" onclick="saveAluno()">
     </div>
     <div class="researchClass">
@@ -60,11 +69,8 @@
     <div class="retornoDeElementos" id = "elementosTurma"></div>
     <script type="text/javascript">
         function save(){
-            let codigo = document.getElementById("TurmaCodigo1").value;
-            let disciplina = document.getElementById("TurmaDisciplina1").value;
-            let semestre = document.getElementById("TurmaSemestre1").value;
-            let alunos = [];
-            newprod = {codigo: parseInt(codigo), disciplina: disciplina, semestre : parseInt(semestre), alunos: alunos};
+            let disciplina = parseInt(document.getElementById("TurmaDisciplina1").value);
+            newprod = {disciplina_codigo  : disciplina}
            
             var xhr = new XMLHttpRequest();
             xhr.open("POST", '/api/turma', true);
@@ -72,6 +78,23 @@
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
             xhr.send(JSON.stringify(newprod));
+        }
+
+        function saveDisciplina(){
+            let nome = document.getElementById("NomeDisciplina").value;
+            let creditos = document.getElementById("CreditosDisciplina").value;
+            newprod = {nome: nome, creditos:creditos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/api/disciplina', true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+
+        function saveHorario(){
+            horario.push(document.getElementById("TurmaHorario1").value); 
         }
 
         function busca(){
@@ -158,14 +181,20 @@
             xhr.send();
         }
         function saveAluno(){
-            let codigo = document.getElementById("TurmaCodigo5").value;
-            let matricula = document.getElementById("AlunoMatricula1").value;
             let nome = document.getElementById("AlunoNome").value;
             let email = document.getElementById("AlunoEmail").value;
-            newprod = {matricula: parseInt(matricula), nome: nome, email : email};
+            let telefone = document.getElementById("AlunoTelefone").value;
+            let dataNasc = document.getElementById("AlunoDataNascimento").value;
+            let estado = document.getElementById("AlunoEstado").value;
+            let cidade = document.getElementById("AlunoCidade").value;
+            let logradouro = document.getElementById("AlunoLogradouro").value;
+            let numero = document.getElementById("AlunoNumero").value;
+            let cep =  parseInt(document.getElementById("AlunoCep").value);
+            newendereco = { estado : estado, cidade : cidade, logradouro : logradouro, numero : numero, cep:cep}
+            newprod = {nome: nome, email : email, telefone : telefone, data_nasc : dataNasc, endereco:newendereco};
            
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", '/api/turma/'+codigo+'/alunos', true);
+            xhr.open("POST", '/api/turma/alunos', true);
 
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 

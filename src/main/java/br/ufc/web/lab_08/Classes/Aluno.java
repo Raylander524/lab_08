@@ -1,21 +1,29 @@
-package br.ufc.web.lab_08.controler;
+package br.ufc.web.lab_08.Classes;
 
+import java.sql.Date;
+
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
 public class Aluno {
+    
     @Id
     @GeneratedValue
     private int matricula;
+
     private String nome;
     private String email;
+    private String telefone;
+    
+    private Date dataNasc;
 
-    public Aluno(int matricula, String nome, String email){
-        this.matricula = matricula;
-        this.nome = nome;
-        this.email = email;
+    @Embedded
+    private Endereco endereco;
+
+    public Aluno(){
     }
 
     public void setMatricula(int matricula){
@@ -40,5 +48,21 @@ public class Aluno {
 
     public String getEmail(){
         return this.email;
+    }
+
+    public void setTelefone(String telefone){
+        this.telefone = telefone;
+    }
+
+    public String getTelefone(){
+        return this.telefone;
+    }
+
+    public void setDataNasc(Date telefone){
+        this.dataNasc = dataNasc;
+    }
+
+    public Date getDataNasc(){
+        return this.dataNasc;
     }
 }
