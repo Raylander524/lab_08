@@ -22,8 +22,10 @@ public class Turma {
     @ElementCollection
     private List<Date> horarios;
 
-    public Turma(Disciplina disciplina){
+    public Turma(Disciplina disciplina, List<Aluno> alunos, List<Date> horarios){
         this.disciplina = disciplina;
+        this.alunos = alunos;
+        this.horarios = horarios;
     }
 
     public void setCodigo(int codigo){

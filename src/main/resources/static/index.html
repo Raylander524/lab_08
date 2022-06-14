@@ -69,13 +69,15 @@
     <div class="researchClass"><input class="button" type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>
     <div class="retornoDeElementos" id = "elementosTurma"></div>
     <script type="text/javascript">
-        var disciplina;
+        var disciplina = [];
+        var horarios = [];
+        var alunos = [];
         function save(){
             let disciplina1 = document.getElementById("TurmaDisciplina1").value;
             for (const i in disciplina){
                 let p = disciplina[i]
                 if(p.nome == disciplina1){
-                    newprod = {disciplina : p}
+                    newprod = {disciplina : p, alunos: alunos, horarios : horario}
            
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", '/api/turma', true);
@@ -120,6 +122,18 @@
                    
                     lista += '<ul>';
                         disciplinaElementoDiv.innerHTML = lista;
+                }
+            };
+            xhttp.send();
+            retornaAlunos();
+        }
+
+        function retornaAlunos(){
+        var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/api/turma/alunos", true);
+            xhttp.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alunos = JSON.parse(xhttp.responseText);
                 }
             };
             xhttp.send();
