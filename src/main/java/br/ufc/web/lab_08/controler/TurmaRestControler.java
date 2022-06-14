@@ -32,24 +32,4 @@ public class TurmaRestControler{
 	public void addTurma(@RequestBody Turma turma) {
 		turmaRepository.save(turma);
 	}
-
-	// @PutMapping("/api/turma/{codigo}")
-    // public void updateTurma(@PathVariable Integer codigo, @RequestBody Turma turma){
-    //     turmaRepository.findById(codigo).get();
-    // }
-
-	// @DeleteMapping("/api/turma/{codigo}")
-    // public void deleteTurma(@PathVariable int codigo){
-    //     if (!turmaServices.deleteTurma(codigo)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    // }
-
-    // @GetMapping("/api/turma/{codigo}/alunos")
-	// public List<Aluno> getAlunos(@PathVariable int codigo){
-	// 	return turmaServices.getAlunos(codigo);
-	// }
-
-	// @DeleteMapping("/api/turma/{codigo}/alunos/{matricula}")
-    // public void deleteAluno(@PathVariable int codigo,@PathVariable int matricula){
-    //     if (!turmaServices.deleteAluno(codigo,matricula)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    // }
 }

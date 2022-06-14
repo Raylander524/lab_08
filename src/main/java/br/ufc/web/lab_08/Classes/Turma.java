@@ -22,7 +22,8 @@ public class Turma {
     @ElementCollection
     private List<Date> horarios;
 
-    public Turma(){
+    public Turma(Disciplina disciplina){
+        this.disciplina = disciplina;
     }
 
     public void setCodigo(int codigo){

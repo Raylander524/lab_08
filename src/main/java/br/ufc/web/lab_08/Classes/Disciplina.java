@@ -13,7 +13,12 @@ public class Disciplina {
     private String nome;
     private int creditos;
 
-    public Disciplina(String nome, int creditos){
+    public Disciplina(){
+
+    }
+
+    public Disciplina(int codigo, String nome, int creditos){
+        this.codigo = codigo;
         this.nome = nome;
         this.creditos = creditos;
     }

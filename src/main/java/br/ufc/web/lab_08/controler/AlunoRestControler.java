@@ -18,7 +18,6 @@ public class AlunoRestControler {
 
     @PostMapping("api/turma/alunos")
 	public void addAluno(@RequestBody Aluno aluno) {
-        System.err.println("\n\n\n\n\n\n\n\n\n\n"+ aluno.getClass() + "\n\n\n\n\n\n\n\n\n\n");
 		alunoRepository.save(aluno);
 	}
 }

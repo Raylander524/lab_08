@@ -1,6 +1,7 @@
 package br.ufc.web.lab_08.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +23,10 @@ public class DisciplinaRestControler {
 			disciplina.setNome("");
 		}
 		disciplinaRepository.save(disciplina);
+	}
+
+	@GetMapping("api/disciplina")
+	public Iterable<Disciplina> getTurmas(){
+		return disciplinaRepository.findAll();
 	}
 }
