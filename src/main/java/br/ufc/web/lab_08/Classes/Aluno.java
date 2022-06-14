@@ -20,6 +20,10 @@ public class Aluno {
     @Embedded
     private Endereco endereco;
 
+    public Aluno(){
+        
+    }
+
     public Aluno(String nome, String email, String telefone, String dataNasc, Endereco endereco){
         this.nome = nome;
         this.email = email;
@@ -66,5 +70,13 @@ public class Aluno {
 
     public String getDataNasc(){
         return this.dataNasc;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

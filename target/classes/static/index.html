@@ -13,19 +13,22 @@
     </div>
     <div class="researchClass">
         <h3 class="researchClass-title">Pesquisar turma</h3><br/><br/>
-        <input class="campoEntrada" type="number" id="TurmaId" placeholder="Código da turma" >
+        <input class="campoEntrada" type="number" id="TurmaId" placeholder="Código da turma">
         <input class="button" type="button" value="Pesquisar" onclick="busca()">
     </div>
     <div id = "elementoTurma"  ></div>
     <div class="researchClass">
         <h3 class="researchClass-title">Deletar turma</h3><br/><br/>
-        <input class="campoEntrada" type="number" id="TurmaCodigo3" placeholder="Código da turma"> 
-        <input class="button" type="button" value="Deletar elemento" onclick="deletar()">
+        <input class="campoEntrada" type="number" id="TurmaCodigo3" placeholder="Código da turma" onclick="buscaTurmas()"> 
+        <input class="button" type="button" value="Deletar elemento" onclick="deletarTurma()">
+        <div id = "elementosTurmas"></div>
     </div>
     <div class="researchClass">
         <h3 class="researchClass-title">Cadastrar turma</h3><br/><br/>
-        <input class="campoEntrada" type="text" id="TurmaDisciplina1" placeholder="Disciplina" onclick="retornaDisciplina()">
-        <input class="button" type="button" value="Cadastrar Turma" onclick="save()"><br/>
+        <input class="campoEntrada" type="date" id="TurmaHorarios" placeholder="Horario">
+        <input class="button" type="button" value="Cadastrar Horario" onclick="saveHorario()"><br/>
+        <input class="campoEntrada" type="number" id="TurmaDisciplina1" placeholder="Disciplina" onclick="retornaDisciplina()">
+        <input class="button" type="button" value="Cadastrar Turma" onclick="save()"><br/>        
         <div id = "elementosDisciplina"></div>
     </div>
     <div class="researchClass">
@@ -42,13 +45,19 @@
         <input class="button" type="button" value="Atualizar turma" onclick="atualizar()">
     </div>
     <div class="researchClass">
+        <h3 class="researchClass-title">Cadastrar aluno na turma</h3><br/><br/>
+        <input class="campoEntrada" type="number" id="TurmaCodigo10" placeholder="Código da turma"> 
+        <input class="campoEntrada" type="number" id="AlunoCodigo" placeholder="Código da turma" onclick="buscaAlunos()"> 
+        <input class="button" type="button" value="Atualizar turma" onclick="adicionarAlunoTurma()">
+    </div>
+    <div class="researchClass">
         <h3 class="researchClass-title">Retornar alunos da turma</h3><br/><br/>
         <input class="campoEntrada" type="number" id="TurmaCodigo4" placeholder="Código da turma"> 
         <input class="button" type="button" value="Retornar alunos" onclick="buscaAlunos()">
     </div>
     <div id = "elementosAlunos"></div>
     <div class="researchClass">
-        <h3 class="researchClass-title">Cadastrar aluno na turma</h3><br/><br/>
+        <h3 class="researchClass-title">Cadastrar aluno</h3><br/><br/>
         <input class="campoEntrada" type="text" id="AlunoNome" placeholder="Nome"> 
         <input class="campoEntrada" type="email" id="AlunoEmail" placeholder="Email"> 
         <input class="campoEntrada" type="tel" id="AlunoTelefone" placeholder="Telefone">
@@ -69,22 +78,25 @@
     <div class="researchClass"><input class="button" type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>
     <div class="retornoDeElementos" id = "elementosTurma"></div>
     <script type="text/javascript">
-        var disciplina = [];
-        var horarios = [];
-        var alunos = [];
+        var disciplina
+        var horarios=[]
+        var alunos = []
+        var aluno
         function save(){
-            let disciplina1 = document.getElementById("TurmaDisciplina1").value;
+            let disciplina1 = parseInt(document.getElementById("TurmaDisciplina1").value);
             for (const i in disciplina){
                 let p = disciplina[i]
-                if(p.nome == disciplina1){
-                    newprod = {disciplina : p, alunos: alunos, horarios : horario}
-           
+                if(p.codigo == disciplina1){
+                   
+                    newdis = {disciplina : p, alunos : [], horarios : horarios}
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", '/api/turma', true);
+                    
 
                     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-                    xhr.send(JSON.stringify(newprod));
+                    xhr.send(JSON.stringify(newdis));
+                    
                 }
                 else{
                     console.log(p.nome + " " + disciplina1)
@@ -117,7 +129,7 @@
                     disciplinaElementoDiv = document.getElementById("elementosDisciplina");
                     for (const i in disciplina){
                         let p = disciplina[i];
-                        lista += '<li>'+ p.codigo + ' - ' + p.nome + ' - ' + p.creditos + '</li>';
+                        lista += '<li>' + parseInt(p.codigo) + ' - ' + p.nome + ' - ' + p.creditos + '</li>';
                     }
                    
                     lista += '<ul>';
@@ -140,7 +152,9 @@
         }
 
         function saveHorario(){
-            horario.push(document.getElementById("TurmaHorario1").value); 
+            horarios.push(document.getElementById("TurmaHorarios").value); 
+            console.log(document.getElementById("TurmaHorarios").value);
+            document.getElementById("TurmaHorarios").value="";
         }
 
         function busca(){
@@ -175,7 +189,28 @@
                     turmasElementoDiv = document.getElementById("elementosTurma");
                     for (const i in turmas){
                         let p = turmas[i];
-                        lista += '<li>' + p.codigo + ' - ' + p.disciplina + ' - ' + p.semestre + ' - ' + p.alunos + '</li>';
+                        lista += '<li>' + p.codigo + ' - ' + p.disciplina.codigo + ' - ' + p.disciplina.nome + ' - ' + p.disciplina.creditos + ' - ' + p.horarios + '</li>';
+                    }
+                   
+                    lista += '<ul>';
+                        turmasElementoDiv.innerHTML = lista;
+                }
+            };
+            xhttp.send();
+        }
+
+        function buscaTurmas(){
+        var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/api/turma", true);
+            xhttp.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    turmas = JSON.parse(xhttp.responseText);
+                    lista = '<ul>';
+
+                    turmasElementoDiv = document.getElementById("elementosTurmas");
+                    for (const i in turmas){
+                        let p = turmas[i];
+                        lista += '<li>' + p.codigo + ' - ' + p.disciplina.codigo + ' - ' + p.disciplina.nome + ' - ' + p.disciplina.creditos + ' - ' + p.horarios + '</li>';
                     }
                    
                     lista += '<ul>';
@@ -200,33 +235,42 @@
             xhr.send(JSON.stringify(newprod));
         }
 
-        function deletar(){
+        function adicionarAlunoTurma(){
+            let codigoTurma = parseInt(document.getElementById("TurmaCodigo10").value);
+            let codigoAluno = parseInt(document.getElementById("AlunoCodigo").value);
+
+                for (const i in alunos){
+                        let p = alunos[i];
+                    if(p.matricula == codigoAluno){
+                        aluno = p;
+                    }
+                }
+
+            newprod = {codigo: codigoTurma, alunos: alunos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", '/api/turma/'+codigoTurma, true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+
+        function deletarTurma(){
             let codigo = document.getElementById("TurmaCodigo3").value;
+
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", '/api/turma/'+codigo, true);
             xhr.send();
         }
 
         function buscaAlunos(){
-            let codigo = document.getElementById("TurmaCodigo4").value;
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", '/api/turma/'+codigo+'/alunos', true);
+            xhr.open("GET", '/api/turma/alunos', true);
             xhr.onload = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     alunos = JSON.parse(xhr.responseText);
-
-                    lista = '<ul>';
-                   
-                    alunosElementoDiv = document.getElementById("elementosAlunos");
-                    for (const i in alunos){
-                        let p = alunos[i];
-                        lista += '<li>' + p.matricula + ' - ' + p.nome + ' - ' + p.email+ '</li>';
-                    }
-                   
-                    lista += '<ul>';
-                        alunosElementoDiv.innerHTML = lista;
-                }
-
+                } 
             };
             xhr.send();
         }

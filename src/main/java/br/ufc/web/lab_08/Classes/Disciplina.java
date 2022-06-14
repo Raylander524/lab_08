@@ -14,13 +14,14 @@ public class Disciplina {
     private int creditos;
 
     public Disciplina(){
-
     }
 
-    public Disciplina(int codigo, String nome, int creditos){
+    public int getCodigo(){
+        return codigo;
+    }
+
+    public void setCodigo(int codigo){
         this.codigo = codigo;
-        this.nome = nome;
-        this.creditos = creditos;
     }
 
     public String getNome(){
@@ -38,4 +39,5 @@ public class Disciplina {
     public void setCreditos(int creditos){
         this.creditos = creditos;
     }
+
 }
