@@ -190,8 +190,8 @@
             let logradouro = document.getElementById("AlunoLogradouro").value;
             let numero = document.getElementById("AlunoNumero").value;
             let cep =  document.getElementById("AlunoCep").value;
-            newendereco = { estado : estado, cidade : cidade, logradouro : logradouro, numero : numero, cep:cep}
-            newprod = {nome: nome, email : email, telefone : telefone, data_nasc : dataNasc, endereco:newendereco};
+            newendereco = { estado : estado, cidade : cidade, logradouro : logradouro, numero : numero, cep: parseInt(cep)}
+            newprod = {nome: nome, email : email, telefone : telefone, dataNasc : dataNasc, endereco:newendereco};
            
             var xhr = new XMLHttpRequest();
             xhr.open("POST", '/api/turma/alunos', true);

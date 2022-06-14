@@ -1,7 +1,6 @@
 package br.ufc.web.lab_08.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ public class AlunoRestControler {
 
     @PostMapping("api/turma/alunos")
 	public void addAluno(@RequestBody Aluno aluno) {
+        System.err.println("\n\n\n\n\n\n\n\n\n\n"+ aluno.getClass() + "\n\n\n\n\n\n\n\n\n\n");
 		alunoRepository.save(aluno);
 	}
 }

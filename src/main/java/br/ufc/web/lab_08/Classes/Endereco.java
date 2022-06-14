@@ -1,9 +1,7 @@
 package br.ufc.web.lab_08.Classes;
 
-import org.springframework.lang.Nullable;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 
 @Embeddable
@@ -14,15 +12,10 @@ public class Endereco {
     private String cidade;
     private String logradouro;
     private String numero;
-    @Nullable
     private int cep;
 
-    public Endereco(char[] estado, String cidade, String logradouro, String numero, int cep){
-        this.estado = estado;
-        this.cidade = cidade;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.cep = cep;
+    public Endereco(){
+
     }
 
     public char[] getEstado(){
